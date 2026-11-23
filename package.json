@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "express": "^4.21.2",
+    "@coinbase/x402": "^2.0.0",
     "@x402/express": "^2.0.0",
     "@x402/core": "^2.0.0",
     "@x402/evm": "^2.0.0"

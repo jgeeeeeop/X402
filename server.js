@@ -7,15 +7,31 @@ import express from "express";
 import { paymentMiddleware, x402ResourceServer } from "@x402/express";
 import { ExactEvmScheme } from "@x402/evm/exact/server";
 import { HTTPFacilitatorClient } from "@x402/core/server";
+import { createFacilitatorConfig } from "@coinbase/x402";
 
 const app = express();
 
 // Your wallet address
 const PAY_TO = "0xa1df631954a1c207137f429bb99bdd41698afa09";
 
-const facilitatorClient = new HTTPFacilitatorClient({
-  url: "https://x402.org/facilitator",
-});
+// The CDP facilitator is required for Base mainnet (eip155:8453).
+const missingEnv = ["CDP_API_KEY_NAME", "CDP_API_KEY_PRIVATE_KEY"].filter(
+  (name) => !process.env[name]
+);
+if (missingEnv.length > 0) {
+  console.error(
+    `Missing required environment variable(s): ${missingEnv.join(", ")}. ` +
+      "Set them in the Railway service variables and redeploy."
+  );
+  process.exit(1);
+}
+
+const facilitatorClient = new HTTPFacilitatorClient(
+  createFacilitatorConfig(
+    process.env.CDP_API_KEY_NAME,
+    process.env.CDP_API_KEY_PRIVATE_KEY
+  )
+);
 
 const resourceServer = new x402ResourceServer(facilitatorClient)
   .register("eip155:8453", new ExactEvmScheme());
