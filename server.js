@@ -7,6 +7,7 @@ import express from "express";
 import { paymentMiddleware, x402ResourceServer } from "@x402/express";
 import { ExactEvmScheme } from "@x402/evm/exact/server";
 import { HTTPFacilitatorClient } from "@x402/core/server";
+import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
 import { createFacilitatorConfig } from "@coinbase/x402";
 
 const app = express();
@@ -50,6 +51,22 @@ app.use(
         ],
         description: "Current weather data",
         mimeType: "application/json",
+        extensions: {
+          ...declareDiscoveryExtension({
+            output: {
+              example: {
+                report: {
+                  weather: "sunny",
+                  temperature: 72,
+                  location: "San Francisco",
+                  forecast: "Clear skies",
+                  source: "x402 paid service",
+                  timestamp: "2026-01-01T00:00:00.000Z",
+                },
+              },
+            },
+          }),
+        },
       },
     },
     resourceServer
