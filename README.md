@@ -1,16 +1,9 @@
-{
-  "name": "x402",
-  "version": "1.0.0",
-  "description": "Simple x402 paid API",
-  "main": "server.js",
-  "type": "module",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.21.2",
-    "@x402/express": "^2.0.0",
-    "@x402/core": "^2.0.0",
-    "@x402/evm": "^2.0.0"
-  }
-}
+# x402 Service
+
+Simple paid API that earns USDC on Base.
+
+## Endpoint
+- `GET /weather` → $0.01 USDC
+
+## Wallet
+Payments go to: `0xa1df631954a1c207137f429bb99bdd41698afa09`
